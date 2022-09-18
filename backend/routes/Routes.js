@@ -13,11 +13,12 @@ const router = require("express").Router();
 const { Client, auth } = require("twitter-api-sdk");
 
 const URL = process.env.URL || "https://tweeterdev.vercel.app/";
-const PORT = process.env.PORT || 5000;
+// const PORT = process.env.PORT || 5000;
 const authClient = new auth.OAuth2User({
   client_id: process.env.CLIENT_ID,
   client_secret: process.env.CLIENT_SECRET,
-  callback: `${URL}:${PORT}/callback`,
+  // callback: `${URL}:${PORT}/callback`,
+  callback: `${URL}/callback`,
   scopes: ["users.read", "tweet.read", "tweet.write"],
 });
 const client = new Client(authClient);

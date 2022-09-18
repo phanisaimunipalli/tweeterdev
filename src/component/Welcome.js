@@ -45,13 +45,15 @@ class Welcome extends Component {
         id: id,
       },
     };
-    axios.get("http://localhost:5000/delete", req_header).then((res) => {
-      console.log(res);
-      window.location.href = "http://localhost:3000";
-      {
-        this.deleteify();
-      }
-    });
+    axios
+      .get("https://tweeterdev.vercel.app/delete", req_header)
+      .then((res) => {
+        console.log(res);
+        window.location.href = "https://tweeterdev.vercel.app/";
+        {
+          this.deleteify();
+        }
+      });
   };
 
   handleSearch = (query) => {
