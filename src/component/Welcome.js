@@ -65,15 +65,13 @@ class Welcome extends Component {
         query: query,
       },
     };
-    axios
-      .get("https://tweeterdev.vercel.app/search", req_header)
-      .then((res) => {
-        var data = res.data.data.statuses;
-        console.log(res.data);
-        this.setState({
-          tweets: res.data.data,
-        });
+    axios.get("http://localhost:5000/search", req_header).then((res) => {
+      //   var data = res.data.data.statuses;
+      console.log(res.data);
+      this.setState({
+        tweets: res.data.data,
       });
+    });
   };
 
   renderTweets() {
