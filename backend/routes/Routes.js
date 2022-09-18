@@ -1,9 +1,9 @@
 var express = require("express");
 //  var router = express.Router();
 const config = require("./../config");
-var Twit = require("twit");
+// var Twit = require("twit");
 
-var T = new Twit(config);
+// var T = new Twit(config);
 
 const { TwitterApi } = require("twitter-api-v2");
 const twitterClient = new TwitterApi(
@@ -12,13 +12,12 @@ const twitterClient = new TwitterApi(
 const router = require("express").Router();
 const { Client, auth } = require("twitter-api-sdk");
 
-const URL = process.env.URL || "https://tweeterdev.vercel.app/";
+// const URL = process.env.URL || "localhost";
 // const PORT = process.env.PORT || 5000;
 const authClient = new auth.OAuth2User({
   client_id: process.env.CLIENT_ID,
   client_secret: process.env.CLIENT_SECRET,
-  // callback: `${URL}:${PORT}/callback`,
-  callback: `${URL}/callback`,
+  callback: `${process.env.URL}:${process.env.PORT}/callback`,
   scopes: ["users.read", "tweet.read", "tweet.write"],
 });
 const client = new Client(authClient);
@@ -37,7 +36,6 @@ router.get("/search", async (req, r) => {
 });
 
 router.get("/", async (req, res) => {
-  console.log("delete inside in routes.js");
   const authUrl = authClient.generateAuthURL({
     state: STATE,
     code_challenge_method: "s256",
@@ -45,35 +43,35 @@ router.get("/", async (req, res) => {
   console.log(authUrl);
   res.redirect(authUrl);
 
-  router.get("/callback", async function (req, res) {
-    try {
-      const { code, state } = req.query;
-      if (state !== STATE) return res.status(500).send("State isn't matching");
-      await authClient.requestAccessToken(code);
-      res.redirect("/deletenow");
-    } catch (error) {
-      console.log(error);
-    }
-  });
+  // router.get("/callback", async function (req, res) {
+  //   try {
+  //     const { code, state } = req.query;
+  //     if (state !== STATE) return res.status(500).send("State isn't matching");
+  //     await authClient.requestAccessToken(code);
+  //     res.redirect("/delete");
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // });
 
-  router.get("/revoke", async function (req, res) {
-    try {
-      const response = await authClient.revokeAccessToken();
-      res.send(response);
-    } catch (error) {
-      console.log(error);
-    }
-  });
+  // router.get("/revoke", async function (req, res) {
+  //   try {
+  //     const response = await authClient.revokeAccessToken();
+  //     res.send(response);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // });
 
-  router.get("/deletenow", async function (req, res) {
-    try {
-      const response = await client.tweets.deleteTweetById(req.headers.id);
-      console.log("response", JSON.stringify(response, null, 2));
-      res.send(response);
-    } catch (error) {
-      console.log("tweets error", error);
-    }
-  });
+  // router.get("/delete", async function (req, res) {
+  //   try {
+  //     const response = await client.tweets.deleteTweetById(req.headers.id);
+  //   console.log("response", JSON.stringify(response, null, 2));
+  //     res.send(response);
+  //   } catch (error) {
+  //     console.log("tweets error", error);
+  //   }
+  // });
 });
 
 // router.get("/delete", async function (req, res) {

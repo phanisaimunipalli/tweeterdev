@@ -1,25 +1,22 @@
-const express = require("express");
+// const express = require("express");
 const { Client, auth } = require("twitter-api-sdk");
 const dotenv = require("dotenv");
 dotenv.config();
-
-const app = express();
-
-const URL = process.env.URL || "https://tweeterdev.vercel.app/";
-// const PORT = process.env.PORT || 5000;
+const router = require("express").Router();
+// const app = express();
 
 const authClient = new auth.OAuth2User({
   client_id: process.env.CLIENT_ID,
   client_secret: process.env.CLIENT_SECRET,
-  callback: `${URL}/callback`,
+  callback: `${process.env.URL}:${process.env.PORT}/callback`,
   scopes: ["users.read", "tweet.read", "tweet.write"],
 });
 const client = new Client(authClient);
 
 const STATE = "my-state";
 
-const router = require("express").Router();
 router.get("/", async (req, res) => {
+  console.log("inside delete tweets");
   const authUrl = authClient.generateAuthURL({
     state: STATE,
     code_challenge_method: "s256",
@@ -27,7 +24,7 @@ router.get("/", async (req, res) => {
   console.log(authUrl);
   res.redirect(authUrl);
 
-  app.get("/callback", async function (req, res) {
+  router.get("/callback", async function (req, res) {
     try {
       const { code, state } = req.query;
       if (state !== STATE) return res.status(500).send("State isn't matching");
@@ -38,7 +35,7 @@ router.get("/", async (req, res) => {
     }
   });
 
-  app.get("/revoke", async function (req, res) {
+  router.get("/revoke", async function (req, res) {
     try {
       const response = await authClient.revokeAccessToken();
       res.send(response);
@@ -47,7 +44,7 @@ router.get("/", async (req, res) => {
     }
   });
 
-  app.get("/deleteTweet", async function (req, res) {
+  router.get("/deleteTweet", async function (req, res) {
     try {
       const response = await client.tweets.deleteTweetById(req.headers.id);
 
@@ -59,7 +56,7 @@ router.get("/", async (req, res) => {
   });
 });
 
-// app.listen(PORT, () => {
-//   console.log(`Go here to login: ${URL}:${PORT}`);
+// app.listen(process.env.PORT, () => {
+//   console.log(`Go here to login: ${process.env.URL}:${process.env.PORT}`);
 // });
 module.exports = router;
