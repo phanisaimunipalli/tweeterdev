@@ -49,7 +49,7 @@ class Welcome extends Component {
       .get("https://tweeterdev.vercel.app/delete", req_header)
       .then((res) => {
         console.log(res);
-        window.location.href = "https://tweeterdev.vercel.app/";
+        // window.location.href = "https://tweeterdev.vercel.app/";
         {
           this.deleteify();
         }
