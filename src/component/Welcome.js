@@ -45,15 +45,13 @@ class Welcome extends Component {
         id: id,
       },
     };
-    axios
-      .get("https://tweeterdev.vercel.app/delete", req_header)
-      .then((res) => {
-        console.log(res);
-        window.location.href = "https://tweeterdev.vercel.app";
-        {
-          this.deleteify();
-        }
-      });
+    axios.get("http://localhost:5000/delete", req_header).then((res) => {
+      console.log(res);
+      window.location.href = "http://localhost:3000";
+      {
+        this.deleteify();
+      }
+    });
   };
 
   handleSearch = (query) => {
@@ -65,15 +63,13 @@ class Welcome extends Component {
         query: query,
       },
     };
-    axios
-      .get("https://tweeterdev.vercel.app/search", req_header)
-      .then((res) => {
-        var data = res.data.data;
-        console.log(res.data);
-        this.setState({
-          tweets: res.data.data,
-        });
+    axios.get("http://localhost:5000/search", req_header).then((res) => {
+      var data = res.data.data.statuses;
+      console.log(res.data);
+      this.setState({
+        tweets: res.data.data,
       });
+    });
   };
 
   renderTweets() {
