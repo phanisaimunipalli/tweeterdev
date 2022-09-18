@@ -35,7 +35,7 @@ router.get("/search", async (req, r) => {
   return response;
 });
 
-router.get("/", async (req, res) => {
+router.get("/delete", async (req, res) => {
   const authUrl = authClient.generateAuthURL({
     state: STATE,
     code_challenge_method: "s256",
@@ -48,7 +48,7 @@ router.get("/", async (req, res) => {
       const { code, state } = req.query;
       if (state !== STATE) return res.status(500).send("State isn't matching");
       await authClient.requestAccessToken(code);
-      res.redirect("/delete");
+      res.redirect("/deletenow");
     } catch (error) {
       console.log(error);
     }
@@ -63,15 +63,15 @@ router.get("/", async (req, res) => {
     }
   });
 
-  // router.get("/delete", async function (req, res) {
-  //   try {
-  //     const response = await client.tweets.deleteTweetById(req.headers.id);
-  //   console.log("response", JSON.stringify(response, null, 2));
-  //     res.send(response);
-  //   } catch (error) {
-  //     console.log("tweets error", error);
-  //   }
-  // });
+  router.get("/deletenow", async function (req, res) {
+    try {
+      const response = await client.tweets.deleteTweetById(req.headers.id);
+      console.log("response", JSON.stringify(response, null, 2));
+      res.send(response);
+    } catch (error) {
+      console.log("tweets error", error);
+    }
+  });
 });
 
 // router.get("/delete", async function (req, res) {
