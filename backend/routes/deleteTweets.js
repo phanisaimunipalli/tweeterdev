@@ -1,21 +1,21 @@
-const express =require("express");
-const {Client, auth} = require("twitter-api-sdk");
+const express = require("express");
+const { Client, auth } = require("twitter-api-sdk");
 const dotenv = require("dotenv");
 dotenv.config();
 
 const app = express();
 
-const URL = process.env.URL || "localhost";
+const URL = process.env.URL || "https://tweeterdev.vercel.app/";
 const PORT = process.env.PORT || 5000;
 
 const authClient = new auth.OAuth2User({
   client_id: process.env.CLIENT_ID,
   client_secret: process.env.CLIENT_SECRET,
   callback: `${URL}:${PORT}/callback`,
-  scopes: ["users.read","tweet.read","tweet.write"]
+  scopes: ["users.read", "tweet.read", "tweet.write"],
 });
 const client = new Client(authClient);
-  
+
 const STATE = "my-state";
 
 const router = require("express").Router();
@@ -50,14 +50,14 @@ router.get("/", async (req, res) => {
   app.get("/deleteTweet", async function (req, res) {
     try {
       const response = await client.tweets.deleteTweetById(req.headers.id);
-    
-    console.log("response", JSON.stringify(response, null, 2));
+
+      console.log("response", JSON.stringify(response, null, 2));
       res.send(response);
     } catch (error) {
       console.log("tweets error", error);
     }
   });
-})
+});
 
 app.listen(PORT, () => {
   console.log(`Go here to login: ${URL}:${PORT}`);
