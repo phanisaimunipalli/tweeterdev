@@ -68,7 +68,7 @@ class Welcome extends Component {
     axios
       .get("https://tweeterdev.vercel.app/search", req_header)
       .then((res) => {
-        var data = res.data.data.statuses;
+        var data = res.data.data;
         console.log(res.data);
         this.setState({
           tweets: res.data.data,
