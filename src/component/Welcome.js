@@ -28,7 +28,7 @@ class Welcome extends Component {
         text: text,
       },
     };
-    axios.get("https://tweeterdev.vercel.app/tweet", req_header).then((res) => {
+    axios.get("http://localhost:5000/tweet", req_header).then((res) => {
       console.log(res);
       {
         this.tweetify();
@@ -47,7 +47,7 @@ class Welcome extends Component {
     };
     axios.get("https://tweeterdev.vercel.app/", req_header).then((res) => {
       console.log(res);
-      window.location.href = "https://tweeterdev.vercel.app/";
+      window.location.href = "http://localhost:3000";
       {
         this.deleteify();
       }
@@ -63,15 +63,13 @@ class Welcome extends Component {
         query: query,
       },
     };
-    axios
-      .get("https://tweeterdev.vercel.app/search", req_header)
-      .then((res) => {
-        var data = res.data.data.statuses;
-        console.log(res.data);
-        this.setState({
-          tweets: res.data.data,
-        });
+    axios.get("http://localhost:5000/search", req_header).then((res) => {
+      var data = res.data.data.statuses;
+      console.log(res.data);
+      this.setState({
+        tweets: res.data.data,
       });
+    });
   };
 
   renderTweets() {
