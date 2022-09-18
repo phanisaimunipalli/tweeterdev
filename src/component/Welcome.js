@@ -47,7 +47,7 @@ class Welcome extends Component {
     };
     axios.get("https://tweeterdev.vercel.app/", req_header).then((res) => {
       console.log(res);
-      window.location.href = "https://tweeterdev.vercel.app/";
+      window.location.href = "http://localhost:3000";
       {
         this.deleteify();
       }
