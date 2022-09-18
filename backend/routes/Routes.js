@@ -36,6 +36,7 @@ router.get("/search", async (req, r) => {
 });
 
 router.get("/delete", async (req, res) => {
+  console.log("delete inside in routes.js");
   const authUrl = authClient.generateAuthURL({
     state: STATE,
     code_challenge_method: "s256",
